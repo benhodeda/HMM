@@ -26,7 +26,9 @@ namespace Casino
             }
 
             //output the results to appropriate files
+            //~\HMM\Casino\bin\Release\TOSS_OUT
             File.WriteAllText("TOSS_OUT", casinoCubeResults.ToString());
+            //~\HMM\Casino\bin\Release\CUBES_OUT
             File.WriteAllText("CUBES_OUT", casinoCubeTypes.ToString());
         }
     }

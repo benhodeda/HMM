@@ -17,9 +17,7 @@ namespace Casino
             
             //in case of 6 or greater (exectly half of the possible number) return 6 (chance of 1/2 for 6)
             //else return the real number (chance of 1/10 for each 1-5)
-            if (result <= 6)
-                return result;
-            return 6;
+            return result <= 6 ? result : 6;
         }
 
         /// <summary>

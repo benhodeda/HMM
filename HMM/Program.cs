@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace HMM
 {
@@ -40,8 +38,8 @@ namespace HMM
             double[,] transitionProbs = new double[2, 2];
             transitionProbs[0, 0] = 0.95;
             transitionProbs[0, 1] = 0.05;
-            transitionProbs[1, 0] = 0.9;
-            transitionProbs[1, 1] = 0.1;
+            transitionProbs[1, 0] = 0.1;
+            transitionProbs[1, 1] = 0.9;
             return transitionProbs;
         }
 
@@ -50,11 +48,15 @@ namespace HMM
             StringBuilder hmmResults = new StringBuilder();
             foreach (State state in prediction)
                 hmmResults.Append(state.Symbol);
+
+            //output the results to appropriate file
+            //~\HMM\HMM\bin\Release\HMM_OUT
             File.WriteAllText("HMM_OUT", hmmResults.ToString());
         }
 
         static void Main(string[] args)
         {
+            //read cubes results from file. the file path is the first argument of this executable.
             int[] cubesResults = File.ReadAllText(args[0]).Select(c => int.Parse(c.ToString())).ToArray();
             
             double[,] emissionProbs = GetEmission();

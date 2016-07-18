@@ -9,13 +9,13 @@ namespace AnalysisHMM
         //The predicted results
         public string Predicted { get; private set; }
         //True Fair
-        public int TF { get; private set; }
+        public double TF { get; private set; }
         //True Unfair
-        public int TU { get; private set; }
+        public double TU { get; private set; }
         //False Fair
-        public int FF { get; private set; }
+        public double FF { get; private set; }
         //False Unfair
-        public int FU { get; private set; }
+        public double FU { get; private set; }
         public string MatchLine { get; private set; }
 
         public StringsComparisonsStatistics(string original, string predicted)

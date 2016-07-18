@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -16,6 +15,7 @@ namespace HMM
 
         private void ResetBackups()
         {
+            //initialize forward and backward matrix for dynamic programming algorithm
             for (int i = 0; i < _forwardBackup.GetLength(0); i++)
             {
                 if (i == _starter.ID) _forwardBackup[i, 0] = _emissionProbs[i, _observers[0] - 1];
@@ -33,7 +33,7 @@ namespace HMM
             }
         }
 
-        public BackwardForward(IList<State> states, State starter,  double[,] transitionProbs, double[,] emissionProbs, int[] observers)
+        public BackwardForward(ICollection<State> states, State starter,  double[,] transitionProbs, double[,] emissionProbs, int[] observers)
         {
             _states = states;
             _starter = starter;
@@ -48,6 +48,7 @@ namespace HMM
         public IEnumerable<State> Prediction()
         {
             List<State> prediction = new List<State>();
+            //predict the cube foreach result index
             for (int i = 0; i < _observers.Length; i++)
                 prediction.Add(SinglePrediction(i));
             return prediction;
@@ -59,18 +60,22 @@ namespace HMM
             State predicted = null;
             foreach (State state in _states)
             {
+                //the prob for current state is backward(i, s) * forward(i, s)
                 double prob = Backward(index, state) * Forward(index, state);
                 if (prob > maxProb)
                 {
+                    //if this state have hight prob last states - compare next states to this state
                     maxProb = prob;
                     predicted = state;
                 }
             }
+            //return the state with that have the highest prob
             return predicted;
         }
 
         private double Forward(int index, State state)
         {
+            //forward algoithm
             if (_forwardBackup[state.ID, index] != -1)
                 return _forwardBackup[state.ID, index];
             double forward = _states.Sum(s => Forward(index - 1, s) * _transitionProbs[s.ID, state.ID]);
@@ -80,6 +85,7 @@ namespace HMM
 
         private double Backward(int index, State state)
         {
+            //backward algorithm
             if (_backwardBackup[state.ID, index] != -1)
                 return _backwardBackup[state.ID, index];
             _backwardBackup[state.ID, index] = _states.Sum(s => _emissionProbs[s.ID, _observers[index + 1] - 1]*Backward(index + 1, s)*_transitionProbs[state.ID, s.ID]);

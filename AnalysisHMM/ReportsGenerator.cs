@@ -18,6 +18,7 @@ namespace AnalysisHMM
                              _statistics.Predicted;
 
             //output the comparison to appropriate file
+            //~\HMM\AnalysisHMM\bin\Release\COMPARE
             File.WriteAllText(COMPARE_FILE, content);
         }
 
@@ -37,6 +38,7 @@ namespace AnalysisHMM
                                            "Sensitivity Unfair: {2}" + Environment.NewLine +
                                            "specificity Unfair: {3}" + Environment.NewLine, snF, spF, snU, spU);
 
+            //~\HMM\AnalysisHMM\bin\Release\SUMMARY
             File.WriteAllText(SUMMARY_FILE, summary);
         }
 
