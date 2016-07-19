@@ -12,6 +12,7 @@ namespace HMM
         private readonly int[] _observers;
         private readonly double[,] _forwardBackup;
         private readonly double[,] _backwardBackup;
+        private readonly double _observerProb;
 
         private void ResetBackups()
         {
@@ -43,6 +44,7 @@ namespace HMM
             _forwardBackup = new double[states.Count, observers.Length];
             _backwardBackup = new double[states.Count, observers.Length];
             ResetBackups();
+            _observerProb = _states.Sum(state => Forward(_observers.Length - 1, state));
         }
 
         public IEnumerable<State> Prediction()
@@ -61,7 +63,7 @@ namespace HMM
             foreach (State state in _states)
             {
                 //the prob for current state is backward(i, s) * forward(i, s)
-                double prob = Backward(index, state) * Forward(index, state);
+                double prob = Backward(index, state) * Forward(index, state) / _observerProb;
                 if (prob > maxProb)
                 {
                     //if this state have hight prob last states - compare next states to this state
